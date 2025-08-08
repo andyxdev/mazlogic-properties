@@ -1,0 +1,155 @@
+// Header styling
+header {
+  background: var(--primary-gradient);
+  color: var(--lightest-color);
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.25);
+  padding: 18px 24px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 6px 16px rgba(26, 115, 232, 0.35);
+  }
+}
+
+// Main content area
+main {
+  position: relative;
+  min-height: 300px;
+  display: block; // Override flexbox that causes overlapping
+}
+
+// Property container
+.property-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+// Logo and brand styling
+.brand-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Brand text styling
+.brand-main {
+  color: var(--lightest-color);
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.5px;
+}
+
+.brand-sub {
+  color: var(--warning-color);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-left: 5px;
+  opacity: 0.95;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+// Form positioning
+app-property-form, app-request-info, app-appointment {
+  position: relative;
+  z-index: 10;
+  display: block;
+  margin-bottom: 30px;
+}
+
+// Property list positioning
+app-property-list {
+  display: block;
+  margin-top: 20px;
+  position: relative;
+  z-index: 5;
+}
+
+// Fix for possible form overlapping
+main > *:not(:first-child) {
+  margin-top: 20px;
+}
+
+// Ensure forms don't overlap
+app-property-form, app-request-info, app-appointment {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+// Modal overlay for request info and appointment forms
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1100; /* Higher than property-details-overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.modal-container {
+  width: 100%;
+  max-width: 600px;
+  animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-container app-request-info,
+.modal-container app-appointment {
+  display: block;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+// App main container
+.app-main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+@media (max-width: 600px) {
+  .app-main-container {
+    padding: 0.5rem;
+  }
+}
+
+// Section styling
+.section {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+  .section {
+    margin-bottom: 1rem;
+  }
+}

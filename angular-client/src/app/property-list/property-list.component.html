@@ -1,0 +1,21 @@
+<div class="property-list modern-list">
+  <div class="list-header d-flex align-items-center justify-content-between mb-3">
+    <h2 class="list-title">Properties</h2>
+    <button class="btn btn-info shadow-sm" (click)="onViewAll()">
+      <i class="bi bi-grid-3x3-gap-fill me-2"></i>View All Properties
+    </button>
+  </div>
+  <div *ngIf="properties.length === 0" class="empty-message">No properties available.</div>
+  <div class="list-grid row">
+    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let property of properties">
+      <app-property-item
+        [property]="property"
+        (edit)="onEdit(property)"
+        (delete)="onDelete(property.id)"
+        (requestInfo)="onRequestInfo(property)"
+        (makeAppointment)="onMakeAppointment(property)"
+        (viewDetails)="onViewDetails(property)"
+      ></app-property-item>
+    </div>
+  </div>
+</div>

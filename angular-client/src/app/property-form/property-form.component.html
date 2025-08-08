@@ -1,0 +1,139 @@
+<form class="property-form card p-4 mb-4" (ngSubmit)="onSubmit()">
+  <h2>
+    <i class="bi" [ngClass]="initialData ? 'bi-pencil-square' : 'bi-building-add'"></i>
+    {{ initialData ? 'Edit Property' : 'Add Property' }}
+  </h2>
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-house"></i></span>
+      <input id="title" class="form-control" name="title" placeholder="Property Title" [(ngModel)]="form.title" required />
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="location" class="form-label">Location</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+      <input id="location" class="form-control" name="location" placeholder="Property Address" [(ngModel)]="form.location" required />
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+      <textarea id="description" class="form-control" name="description" placeholder="Property Description" rows="3" [(ngModel)]="form.description" required></textarea>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="price" class="form-label">Price</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+      <input id="price" class="form-control" name="price" type="number" placeholder="Property Price" [(ngModel)]="form.price" required />
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="type" class="form-label">Property Type</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-tag"></i></span>
+      <select id="type" class="form-select" name="type" [(ngModel)]="form.type">
+        <option value="rent">For Rent</option>
+        <option value="sale">For Sale</option>
+      </select>
+    </div>
+  </div>
+  
+  <!-- Property Images -->
+  <div class="mb-4 mt-4">
+    <h4 class="border-bottom pb-2 mb-3">
+      <i class="bi bi-images me-2"></i>Property Images
+    </h4>
+    <div class="mb-3">
+      <label for="propertyImages" class="form-label">Upload Images (max 5)</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-upload"></i></span>
+        <input 
+          type="file" 
+          id="propertyImages" 
+          class="form-control" 
+          accept="image/*" 
+          multiple
+          (change)="onFileChange($event)"
+          [disabled]="previewUrls.length >= maxFiles"
+        />
+      </div>
+      <small class="text-muted">{{ previewUrls.length }}/{{ maxFiles }} images uploaded</small>
+    </div>
+    
+    <!-- Upload Progress -->
+    <div class="progress mb-3" *ngIf="isUploading">
+      <div class="progress-bar" role="progressbar" [style.width.%]="uploadProgress" 
+          [attr.aria-valuenow]="uploadProgress" aria-valuemin="0" aria-valuemax="100">
+        {{uploadProgress}}%
+      </div>
+    </div>
+    
+    <!-- Upload Errors -->
+    <div class="alert alert-danger" *ngIf="uploadErrors.length > 0">
+      <h5><i class="bi bi-exclamation-triangle"></i> Upload Errors:</h5>
+      <ul>
+        <li *ngFor="let error of uploadErrors">{{error}}</li>
+      </ul>
+    </div>
+    
+    <!-- Image Previews -->
+    <div class="image-previews mt-3" *ngIf="previewUrls.length > 0">
+      <div class="row">
+        <div class="col-md-4 mb-3" *ngFor="let previewUrl of previewUrls; let i = index">
+          <div class="card">
+            <img [src]="previewUrl" class="card-img-top img-preview" alt="Property image">
+            <div class="card-body p-2 text-center">
+              <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="isUploading" (click)="removeImage(i)">
+                <i class="bi bi-trash"></i> Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="mb-4 mt-4">
+    <h4 class="border-bottom pb-2 mb-3">
+      <i class="bi bi-person-badge me-2"></i>Agent Information
+    </h4>
+    <div class="mb-3">
+      <label for="agentName" class="form-label">Agent Name</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-person"></i></span>
+        <input id="agentName" class="form-control" name="agentName" placeholder="Agent Name" [(ngModel)]="form.agent.name" />
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="agentEmail" class="form-label">Agent Email</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+        <input id="agentEmail" class="form-control" name="agentEmail" type="email" placeholder="Agent Email" [(ngModel)]="form.agent.email" />
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="agentPhone" class="form-label">Agent Phone</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+        <input id="agentPhone" class="form-control" name="agentPhone" placeholder="Agent Phone" [(ngModel)]="form.agent.phone" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-actions d-flex gap-2">
+    <button class="btn btn-primary" type="submit" [disabled]="isUploading">
+      <i class="bi" [ngClass]="initialData ? 'bi-save me-2' : 'bi-plus-circle me-2'"></i>
+      <span *ngIf="!isUploading">{{ initialData ? 'Update Property' : 'Add Property' }}</span>
+      <span *ngIf="isUploading">
+        <i class="bi bi-arrow-repeat spinner me-2"></i>Processing...
+      </span>
+    </button>
+    <button class="btn btn-secondary" type="button" (click)="onCancel()" [disabled]="isUploading">
+      <i class="bi bi-x-circle me-2"></i>Cancel
+    </button>
+  </div>
+</form>

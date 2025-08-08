@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mazlogic_properties
+    username: andile.mazibuko
+    password: 
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+      continue-on-error: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8081
+
+# Custom application properties
+application:
+  storage:
+    # Use absolute path for clarity; adjust as needed for your environment
+    image-directory: ${user.dir}/property-images

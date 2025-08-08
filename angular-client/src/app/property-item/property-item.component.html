@@ -1,0 +1,59 @@
+<div class="property-item card shadow-sm">
+  <!-- Property Image Carousel -->
+  <div class="image-carousel" *ngIf="property.imageUrls && property.imageUrls.length > 0" (click)="viewDetails.emit(property)">
+    <div class="carousel-container">
+      <img [src]="property.imageUrls[currentImageIndex]" class="property-image" alt="Property image" 
+           (error)="handleImageError($event)" [title]="property.title">
+      
+      <!-- View Details Overlay -->
+      <div class="view-details-overlay">
+        <span><i class="bi bi-search me-1"></i> View Details</span>
+      </div>
+      
+      <!-- Navigation arrows for multiple images -->
+      <div class="carousel-controls" *ngIf="property.imageUrls.length > 1">
+        <button class="carousel-control carousel-control-prev" (click)="$event.stopPropagation(); prevImage()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button class="carousel-control carousel-control-next" (click)="$event.stopPropagation(); nextImage()">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+      
+      <!-- Image counter -->
+      <div class="image-counter" *ngIf="property.imageUrls.length > 1">
+        {{ currentImageIndex + 1 }}/{{ property.imageUrls.length }}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Placeholder if no images -->
+  <div class="no-image" *ngIf="!property.imageUrls || property.imageUrls.length === 0" (click)="viewDetails.emit(property)">
+    <i class="bi bi-building"></i>
+    <span>No images available</span>
+    <div class="view-details-text">Click to view details</div>
+  </div>
+  
+  <div class="card-body">
+    <h3 class="card-title clickable" (click)="viewDetails.emit(property)">{{ property.title }}</h3>
+    <p>{{ property.description }}</p>
+    <p><strong>Location:</strong> {{ property.location }}</p>
+    <p><strong>Price:</strong> ${{ property.price }}</p>
+    <p><strong>Type:</strong> {{ property.type === 'rent' ? 'For Rent' : 'For Sale' }}</p>
+    <app-agent-info *ngIf="property.agent" [agent]="property.agent"></app-agent-info>
+    <div class="item-actions mt-3">
+      <button class="btn btn-outline-primary btn-sm me-2" (click)="edit.emit(property)">
+        <i class="bi bi-pencil-square me-1"></i> Edit
+      </button>
+      <button class="btn btn-outline-danger btn-sm me-2" (click)="delete.emit(property.id)">
+        <i class="bi bi-trash me-1"></i> Delete
+      </button>
+      <button class="btn btn-info" (click)="requestInfoScroll.emit()">
+        <i class="bi bi-info-circle me-1"></i> Request More Info
+      </button>
+      <button class="btn btn-outline-success btn-sm" (click)="makeAppointment.emit(property)">
+        <i class="bi bi-calendar-check me-1"></i> Make Appointment
+      </button>
+    </div>
+  </div>
+</div>

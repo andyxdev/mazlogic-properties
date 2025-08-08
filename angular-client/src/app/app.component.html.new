@@ -1,0 +1,55 @@
+<!-- filepath: /Users/andile.mazibuko/Documents/learning/mazLogicProperties/angular-client/src/app/app.component.html -->
+<div class="container py-4">
+  <header>
+    <div class="d-flex align-items-center gap-3">
+      <img
+        src="assets/logo192.png"
+        alt="mazLogic Logo"
+        class="brand-logo"
+      />
+      <h1 class="mb-0">
+        <span class="brand-main">mazLogic</span>
+        <span class="brand-sub">Properties</span>
+      </h1>
+    </div>
+    <button class="btn btn-primary" (click)="handleAdd()">Add Property</button>
+  </header>
+
+  <main>
+    <div class="property-container">
+      <!-- Property form component -->
+      <app-property-form
+        *ngIf="showForm"
+        [initialData]="editingProperty"
+        (submitForm)="editingProperty ? updateProperty($event) : addProperty($event)"
+        (cancel)="handleCancel()"
+      ></app-property-form>
+      
+      <!-- Request info component -->
+      <app-request-info
+        *ngIf="showRequestForm && requestProperty"
+        [property]="requestProperty"
+        (submitRequest)="handleRequestSubmit($event)"
+        (cancel)="showRequestForm = false"
+      ></app-request-info>
+      
+      <!-- Appointment component -->
+      <app-appointment
+        *ngIf="showAppointmentForm && appointmentProperty"
+        [property]="appointmentProperty"
+        (submitAppointment)="handleAppointmentSubmit($event)"
+        (cancel)="showAppointmentForm = false"
+      ></app-appointment>
+      
+      <!-- Property list component -->
+      <app-property-list
+        [properties]="properties"
+        (edit)="handleEdit($event)"
+        (delete)="deleteProperty($event)"
+        (requestInfo)="handleRequestInfo($event)"
+        (makeAppointment)="handleMakeAppointment($event)"
+        (viewAll)="handleViewAll()"
+      ></app-property-list>
+    </div>
+  </main>
+</div>

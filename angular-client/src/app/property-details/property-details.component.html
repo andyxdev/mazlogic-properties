@@ -1,0 +1,84 @@
+<div class="property-details-overlay">
+  <div class="property-details-modal card">
+    <div class="modal-header">
+      <h2>{{ property.title }}</h2>
+      <button class="close-button" (click)="closeDetails()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <div class="image-gallery">
+      <div class="image-container" *ngIf="property.imageUrls && property.imageUrls.length > 0">
+        <img [src]="property.imageUrls[currentImageIndex]" alt="Property image" class="main-image">
+        
+        <div class="image-navigation" *ngIf="property.imageUrls.length > 1">
+          <button class="nav-button prev" (click)="prevImage()">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <div class="image-counter">{{ currentImageIndex + 1 }} / {{ property.imageUrls.length }}</div>
+          <button class="nav-button next" (click)="nextImage()">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="thumbnails" *ngIf="property.imageUrls && property.imageUrls.length > 1">
+        <div 
+          *ngFor="let imageUrl of property.imageUrls; let i = index" 
+          class="thumbnail" 
+          [class.active]="i === currentImageIndex"
+          (click)="currentImageIndex = i"
+        >
+          <img [src]="imageUrl" alt="Property thumbnail">
+        </div>
+      </div>
+    </div>
+    
+    <div class="property-info">
+      <div class="info-section">
+        <h3 class="section-title">Property Information</h3>
+        <p class="description">{{ property.description }}</p>
+        
+        <div class="property-details-grid">
+          <div class="detail-item">
+            <i class="bi bi-geo-alt"></i>
+            <div>
+              <strong>Location</strong>
+              <p>{{ property.location }}</p>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <i class="bi bi-currency-dollar"></i>
+            <div>
+              <strong>Price</strong>
+              <p>${{ property.price }}</p>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <i class="bi bi-tag"></i>
+            <div>
+              <strong>Type</strong>
+              <p>{{ property.type === 'rent' ? 'For Rent' : 'For Sale' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="info-section">
+        <h3 class="section-title">Agent Information</h3>
+        <app-agent-info [agent]="property.agent"></app-agent-info>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn btn-info" (click)="onRequestInfo()">
+          <i class="bi bi-info-circle me-1"></i> Request Information
+        </button>
+        <button class="btn btn-success" (click)="onMakeAppointment()">
+          <i class="bi bi-calendar-check me-1"></i> Schedule Viewing
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

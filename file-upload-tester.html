@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MazLogic Properties - File Upload Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], 
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .response {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .preview-item {
+            border: 1px solid #ddd;
+            padding: 5px;
+            width: 200px;
+        }
+        .preview-item img {
+            width: 100%;
+            height: auto;
+        }
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 4px 4px 0 0;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 12px 16px;
+            transition: 0.3s;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>MazLogic Properties - File Upload Tester</h1>
+    
+    <div class="tab-container">
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(event, 'createProperty')">Create Property</button>
+            <button class="tablinks" onclick="openTab(event, 'uploadImage')">Upload Image</button>
+            <button class="tablinks" onclick="openTab(event, 'viewProperty')">View Property</button>
+        </div>
+    </div>
+    
+    <div id="createProperty" class="tabcontent" style="display: block;">
+        <h2>Step 1: Create a Property</h2>
+        <div class="section">
+            <form id="propertyForm">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" value="Test Property" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required>This is a test property to verify image upload functionality</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" value="250000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select id="type" name="type" required>
+                        <option value="rent">For Rent</option>
+                        <option value="sale" selected>For Sale</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" value="123 Test Street, Test City" required>
+                </div>
+                
+                <h3>Agent Information</h3>
+                <div class="form-group">
+                    <label for="agentName">Agent Name:</label>
+                    <input type="text" id="agentName" name="agentName" value="Test Agent" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="agentEmail">Agent Email:</label>
+                    <input type="text" id="agentEmail" name="agentEmail" value="test@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="agentPhone">Agent Phone:</label>
+                    <input type="text" id="agentPhone" name="agentPhone" value="123-456-7890" required>
+                </div>
+                
+                <button type="button" class="btn" onclick="createProperty()">Create Property</button>
+            </form>
+            
+            <div id="propertyResponse" style="display: none; margin-top: 20px;">
+                <h3>Response:</h3>
+                <div class="response" id="propertyResponseText"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="uploadImage" class="tabcontent">
+        <h2>Step 2: Upload an Image</h2>
+        <div class="section">
+            <form id="imageForm">
+                <div class="form-group">
+                    <label for="propertyId">Property ID:</label>
+                    <input type="text" id="propertyId" name="propertyId" placeholder="Enter property ID from step 1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="imageFile">Select Image:</label>
+                    <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="imageDescription">Description:</label>
+                    <input type="text" id="imageDescription" name="imageDescription" value="Test image">
+                </div>
+                
+                <div class="form-group">
+                    <label for="displayOrder">Display Order:</label>
+                    <input type="number" id="displayOrder" name="displayOrder" value="0">
+                </div>
+                
+                <button type="button" class="btn" onclick="uploadImage()">Upload Image</button>
+            </form>
+            
+            <div id="imageResponse" style="display: none; margin-top: 20px;">
+                <h3>Response:</h3>
+                <div class="response" id="imageResponseText"></div>
+                <div id="imagePreview" class="preview-container" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="viewProperty" class="tabcontent">
+        <h2>Step 3: View Property with Images</h2>
+        <div class="section">
+            <div class="form-group">
+                <label for="viewPropertyId">Property ID:</label>
+                <input type="text" id="viewPropertyId" name="viewPropertyId" placeholder="Enter property ID to view">
+            </div>
+            
+            <button type="button" class="btn" onclick="getProperty()">Get Property</button>
+            
+            <div id="getPropertyResponse" style="display: none; margin-top: 20px;">
+                <h3>Property Details:</h3>
+                <div class="response" id="getPropertyResponseText"></div>
+                
+                <h3>Images:</h3>
+                <div id="propertyImages" class="preview-container"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = 'http://localhost:8081/api';
+        let lastCreatedPropertyId = null;
+        
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+            
+            // Auto-fill property IDs when switching tabs
+            if (tabName === 'uploadImage' && lastCreatedPropertyId) {
+                document.getElementById('propertyId').value = lastCreatedPropertyId;
+            } else if (tabName === 'viewProperty' && lastCreatedPropertyId) {
+                document.getElementById('viewPropertyId').value = lastCreatedPropertyId;
+            }
+        }
+        
+        function createProperty() {
+            const propertyData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                price: parseFloat(document.getElementById('price').value),
+                type: document.getElementById('type').value,
+                location: document.getElementById('location').value,
+                agent: {
+                    name: document.getElementById('agentName').value,
+                    email: document.getElementById('agentEmail').value,
+                    phone: document.getElementById('agentPhone').value
+                }
+            };
+            
+            fetch(`${API_URL}/properties`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(propertyData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('propertyResponse').style.display = 'block';
+                document.getElementById('propertyResponseText').textContent = JSON.stringify(data, null, 2);
+                
+                // Save the property ID for the next steps
+                if (data && data.id) {
+                    lastCreatedPropertyId = data.id;
+                }
+            })
+            .catch(error => {
+                document.getElementById('propertyResponse').style.display = 'block';
+                document.getElementById('propertyResponseText').textContent = 'Error: ' + error.message;
+            });
+        }
+        
+        function uploadImage() {
+            const propertyId = document.getElementById('propertyId').value;
+            const imageFile = document.getElementById('imageFile').files[0];
+            const description = document.getElementById('imageDescription').value;
+            const displayOrder = document.getElementById('displayOrder').value;
+            
+            if (!propertyId || !imageFile) {
+                alert('Please provide property ID and select an image file');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', imageFile);
+            formData.append('description', description);
+            formData.append('displayOrder', displayOrder);
+            
+            fetch(`${API_URL}/properties/${propertyId}/images`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('imageResponse').style.display = 'block';
+                document.getElementById('imageResponseText').textContent = JSON.stringify(data, null, 2);
+                
+                // Show image preview
+                if (data && data.imageUrl) {
+                    const previewContainer = document.getElementById('imagePreview');
+                    previewContainer.innerHTML = ''; // Clear previous previews
+                    
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = data.imageUrl;
+                    img.alt = 'Uploaded image';
+                    
+                    const caption = document.createElement('p');
+                    caption.textContent = data.description || 'Property image';
+                    
+                    previewItem.appendChild(img);
+                    previewItem.appendChild(caption);
+                    previewContainer.appendChild(previewItem);
+                }
+            })
+            .catch(error => {
+                document.getElementById('imageResponse').style.display = 'block';
+                document.getElementById('imageResponseText').textContent = 'Error: ' + error.message;
+            });
+        }
+        
+        function getProperty() {
+            const propertyId = document.getElementById('viewPropertyId').value;
+            
+            if (!propertyId) {
+                alert('Please provide a property ID');
+                return;
+            }
+            
+            fetch(`${API_URL}/properties/${propertyId}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('getPropertyResponse').style.display = 'block';
+                document.getElementById('getPropertyResponseText').textContent = JSON.stringify(data, null, 2);
+                
+                // Display property images
+                const imagesContainer = document.getElementById('propertyImages');
+                imagesContainer.innerHTML = ''; // Clear previous images
+                
+                if (data && data.images && data.images.length > 0) {
+                    data.images.forEach(image => {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'preview-item';
+                        
+                        const img = document.createElement('img');
+                        img.src = image.imageUrl;
+                        img.alt = image.description || 'Property image';
+                        
+                        const caption = document.createElement('p');
+                        caption.textContent = image.description || 'Property image';
+                        
+                        previewItem.appendChild(img);
+                        previewItem.appendChild(caption);
+                        imagesContainer.appendChild(previewItem);
+                    });
+                } else {
+                    imagesContainer.textContent = 'No images available for this property';
+                }
+            })
+            .catch(error => {
+                document.getElementById('getPropertyResponse').style.display = 'block';
+                document.getElementById('getPropertyResponseText').textContent = 'Error: ' + error.message;
+                document.getElementById('propertyImages').textContent = '';
+            });
+        }
+    </script>
+</body>
+</html>

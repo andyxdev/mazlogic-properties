@@ -1,0 +1,93 @@
+<div class="container py-4">
+  <header>
+    <div class="d-flex align-items-center gap-3">
+      <img
+        src="assets/mazlogic-logo.png"
+        alt="mazLogic Logo"
+        class="brand-logo"
+      />
+      <h1 class="mb-0">
+        <span class="brand-main">mazLogic</span>
+        <span class="brand-sub">Properties</span>
+      </h1>
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm text-warning ms-2" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </span>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-warning btn-lg shadow-sm" (click)="handleAdd()">
+        <i class="bi bi-plus-circle me-2"></i>Add Property
+      </button>
+      <button class="btn btn-outline-secondary btn-lg shadow-sm" (click)="refreshProperties()" [disabled]="isLoading">
+        <i class="bi bi-arrow-clockwise me-2"></i>Refresh
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Loading and error states -->
+    <div *ngIf="isLoading && !properties.length" class="d-flex justify-content-center my-5">
+      <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    
+    <div *ngIf="errorMessage" class="alert alert-warning my-3">
+      <i class="bi bi-exclamation-triangle me-2"></i>{{ errorMessage }}
+    </div>
+    
+    <div class="property-container">
+      <!-- Property form component -->
+      <app-property-form
+        *ngIf="showForm"
+        [initialData]="editingProperty"
+        (submitForm)="editingProperty ? updateProperty($event) : addProperty($event)"
+        (cancel)="handleCancel()"
+      ></app-property-form>
+      
+      <!-- Property list component -->
+      <app-property-list
+        [properties]="properties"
+        (edit)="handleEdit($event)"
+        (delete)="deleteProperty($event)"
+        (requestInfo)="handleRequestInfo($event)"
+        (makeAppointment)="handleMakeAppointment($event)"
+        (viewDetails)="viewPropertyDetails($event)"
+        (viewAll)="handleViewAll()"
+        (requestInfoScroll)="scrollToRequestInfo()"
+      ></app-property-list>
+      
+      <!-- Property details component -->
+      <app-property-details
+        *ngIf="showPropertyDetails && selectedProperty"
+        [property]="selectedProperty"
+        (close)="closePropertyDetails()"
+        (requestInfo)="handleRequestInfo($event)"
+        (makeAppointment)="handleMakeAppointment($event)"
+        (requestInfoScroll)="scrollToRequestInfo()"
+      ></app-property-details>
+    </div>
+  </main>
+  
+  <!-- Request info component - now shown as a modal when a property is clicked -->
+  <div class="modal-overlay" *ngIf="showRequestForm && requestProperty">
+    <div class="modal-container">
+      <app-request-info
+        [property]="requestProperty"
+        (submitRequest)="handleRequestSubmit($event)"
+        (cancel)="showRequestForm = false"
+      ></app-request-info>
+    </div>
+  </div>
+  
+  <!-- Appointment component - also shown as a modal -->
+  <div class="modal-overlay" *ngIf="showAppointmentForm && appointmentProperty">
+    <div class="modal-container">
+      <app-appointment
+        [property]="appointmentProperty"
+        (submitAppointment)="handleAppointmentSubmit($event)"
+        (cancel)="showAppointmentForm = false"
+      ></app-appointment>
+    </div>
+  </div>
+</div>

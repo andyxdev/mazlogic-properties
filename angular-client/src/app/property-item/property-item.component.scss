@@ -1,0 +1,274 @@
+.property-item {
+  height: 100%;
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--lightest-color);
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+}
+
+// Image carousel styles
+.image-carousel {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  cursor: pointer;
+  
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    
+    .property-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+  
+  .carousel-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    
+    .carousel-control {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: scale(1.1);
+      }
+      
+      i {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+      }
+    }
+  }
+  
+  .image-counter {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+  
+  .view-details-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    
+    span {
+      background-color: rgba(255, 255, 255, 0.85);
+      color: var(--primary-color);
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      
+      i {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Show controls on hover
+.image-carousel:hover {
+  .carousel-control {
+    opacity: 1;
+  }
+}
+
+// No image placeholder
+.no-image {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, var(--light-gray), var(--lightest-gray));
+  color: var(--text-medium);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  
+  .view-details-text {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-style: italic;
+  }
+  
+  &:hover {
+    background: linear-gradient(to bottom right, var(--lightest-gray), var(--light-gray));
+    color: var(--primary-color);
+  }
+}
+
+.property-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(26, 115, 232, 0.15);
+  
+  &::before {
+    opacity: 1;
+  }
+  
+  .property-image {
+    transform: scale(1.05);
+  }
+  
+  .view-details-overlay {
+    opacity: 1;
+  }
+}
+
+.card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+  
+  &.clickable {
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+  }
+}
+
+.card-body {
+  padding: 1.75rem;
+  
+  p {
+    color: var(--light-text);
+    margin-bottom: 8px;
+    
+    strong {
+      color: var(--text-color);
+    }
+  }
+}
+
+.item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 18px;
+  
+  button {
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    padding: 8px 16px;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    &.btn-outline-primary {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+      &:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+    }
+    
+    &.btn-outline-danger {
+      color: var(--danger-color);
+      border-color: var(--danger-color);
+      &:hover {
+        background-color: var(--danger-color);
+        color: white;
+      }
+    }
+    
+    &.btn-outline-info {
+      color: var(--info-color);
+      border-color: var(--info-color);
+      &:hover {
+        background-color: var(--info-color);
+        color: white;
+      }
+    }
+    
+    &.btn-outline-success {
+      color: var(--success-color);
+      border-color: var(--success-color);
+      &:hover {
+        background-color: var(--success-color);
+        color: white;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .item-actions {
+    flex-direction: column;
+  }
+  
+  .item-actions button {
+    width: 100%;
+    margin-right: 0 !important;
+  }
+}

@@ -1,0 +1,45 @@
+### Test Property Creation
+POST http://localhost:8081/api/properties
+Content-Type: application/json
+
+{
+  "title": "Test Property with Image",
+  "description": "This is a test property to verify image upload functionality",
+  "price": 250000,
+  "type": "sale",
+  "location": "123 Test Street, Test City",
+  "agent": {
+    "id": 1,
+    "name": "Test Agent",
+    "email": "test@example.com",
+    "phone": "123-456-7890"
+  }
+}
+
+### Test image upload (after getting property ID from response above)
+# Replace {propertyId} with the actual ID from the response
+POST http://localhost:8081/api/properties/{propertyId}/images
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< ./spring-backend/property-images/test-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+Test property image
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="displayOrder"
+
+0
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get property images
+# Replace {propertyId} with the actual ID
+GET http://localhost:8081/api/properties/{propertyId}/images
+
+### Get full property with images
+# Replace {propertyId} with the actual ID
+GET http://localhost:8081/api/properties/{propertyId}

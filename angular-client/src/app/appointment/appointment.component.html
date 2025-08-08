@@ -1,0 +1,58 @@
+<form class="appointment-form card p-4 mb-4" (ngSubmit)="onSubmit()">
+  <h2><i class="bi bi-calendar-check-fill me-2"></i>Make an Appointment</h2>
+  <p class="mb-4 alert alert-success">
+    <i class="bi bi-house-check me-2"></i>
+    Property: <strong>{{ property?.title }}</strong>
+  </p>
+  
+  <div class="mb-3">
+    <label for="name" class="form-label">Your Name</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-person"></i></span>
+      <input id="name" class="form-control" name="name" placeholder="Enter your name" [(ngModel)]="appointmentInfo.name" required />
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="email" class="form-label">Your Email</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+      <input id="email" class="form-control" name="email" type="email" placeholder="Enter your email" [(ngModel)]="appointmentInfo.email" required />
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="phone" class="form-label">Your Phone</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+      <input id="phone" class="form-control" name="phone" placeholder="Enter your phone number" [(ngModel)]="appointmentInfo.phone" />
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label for="date" class="form-label">Appointment Date</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+        <input id="date" class="form-control" name="date" type="date" [(ngModel)]="appointmentInfo.date" required />
+      </div>
+    </div>
+    
+    <div class="col-md-6 mb-3">
+      <label for="time" class="form-label">Appointment Time</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-clock"></i></span>
+        <input id="time" class="form-control" name="time" type="time" [(ngModel)]="appointmentInfo.time" required />
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-actions d-flex gap-2">
+    <button class="btn btn-success" type="submit">
+      <i class="bi bi-calendar-plus me-2"></i>Book Appointment
+    </button>
+    <button class="btn btn-secondary" type="button" (click)="onCancel()">
+      <i class="bi bi-x-circle me-2"></i>Cancel
+    </button>
+  </div>
+</form>

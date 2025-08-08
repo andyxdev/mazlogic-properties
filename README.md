@@ -10,44 +10,19 @@ MazLogic Properties is a modern property management application that allows user
 
 ## ✨ Features
 
-- 🏢 **Property Management**: Add, edit, delete, and view property listings
-- 📱 **Responsive Design**: Modern, mobile-friendly interface
-- 🖼️ **Image Upload**: Upload and manage multiple property images
-- 👥 **Agent Management**: Associate properties with real estate agents
-- 📋 **Information Requests**: Built-in form for property inquiries
-- 📅 **Appointment Scheduling**: Schedule property viewings
-- 🔍 **Search & Filter**: Find properties by type, price, and location
-- 🎨 **Modal Interface**: Clean, overlay-based forms for better UX
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Angular 17**: Modern TypeScript framework
-- **Bootstrap 5**: Responsive CSS framework
-- **SCSS**: Enhanced CSS with variables and mixins
-- **RxJS**: Reactive programming for HTTP requests
 
 ### Backend
-- **Spring Boot 2.7.18**: Java-based REST API framework
-- **Spring Data JPA**: Database abstraction layer
-- **PostgreSQL**: Primary database
-- **Maven**: Dependency management and build tool
-- **Lombok**: Reduce boilerplate code
 
 ### Additional Tools
-- **Git**: Version control
-- **Docker**: Containerization (future enhancement)
-- **HTTP Client**: API testing files included
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Node.js** v18.19 or higher
-- **Java 11** or higher
-- **PostgreSQL** 12 or higher
-- **Maven** 3.6 or higher
-- **Git** (for cloning)
 
 ### 📦 Installation
 
@@ -119,32 +94,17 @@ mazlogic-properties/
 
 ## 🔌 API Endpoints
 
-### Properties
-- `GET /api/properties` - Get all properties
-- `GET /api/properties/{id}` - Get property by ID
-- `POST /api/properties` - Create a new property
-- `PUT /api/properties/{id}` - Update a property
 - `DELETE /api/properties/{id}` - Delete a property
 
-### Property Images
-- `GET /api/properties/{id}/images` - Get property images
-- `POST /api/properties/{id}/images` - Upload property image
 - `DELETE /api/properties/images/{imageId}` - Delete property image
 
-### Agents
-- `GET /api/agents` - Get all agents
-- `GET /api/agents/{id}` - Get agent by ID
 - `POST /api/agents` - Create a new agent
 
-### System
 - `GET /api/system/health` - Health check endpoint
 
 ## 🧪 Testing
 
 The project includes HTTP files for API testing:
-
-- `test-property.http` - Property CRUD operations
-- `test-upload.http` - Image upload testing
 - `end-to-end-test.sh` - Automated end-to-end testing script
 
 ## 🔧 Configuration
@@ -211,14 +171,9 @@ We welcome contributions! Please follow these steps:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👥 Authors
-
 - **Andile Mazibuko** - *Initial work* - [@andyxdev](https://github.com/andyxdev)
 
 ## 🙏 Acknowledgments
-
-- Spring Boot community for excellent documentation
-- Angular team for the powerful framework
-- Bootstrap for responsive design components
 - PostgreSQL for reliable database management
 
 ## 📞 Support
@@ -227,7 +182,67 @@ If you encounter any issues or have questions, please:
 1. Check the troubleshooting section above
 2. Search existing issues on GitHub
 3. Create a new issue with detailed information about your problem
-
 ---
 
 **Made with ❤️ by the MazLogic team**
+=======
+A property management application with Spring Boot backend and Angular frontend.
+
+## Testing Image Upload Functionality
+
+### Backend
+
+1. Start the Spring Boot backend:
+
+```bash
+cd spring-backend
+./run.sh
+```
+
+2. Make sure the backend is running on port 8081.
+
+3. Verify that the image directory exists and is writable:
+
+```bash
+mkdir -p property-images
+chmod 755 property-images
+```
+
+### Frontend
+
+1. Start the Angular frontend:
+
+```bash
+cd angular-client
+npm start
+```
+
+2. Make sure the frontend is running on port 4200.
+
+## Testing Image Upload Process
+
+1. Open the application at http://localhost:4200
+2. Click on "Add Property"
+3. Fill in the property details
+4. Upload images using the "Upload Images" section
+5. Click "Add Property" to save
+6. Verify that the property is created with images
+
+## Troubleshooting
+
+If images aren't showing up:
+
+1. Check browser console for errors
+2. Verify that the images were uploaded to `property-images` directory
+3. Check that the image URLs in the property data are correct
+4. Make sure the WebConfig is correctly serving static resources
+
+## Manual Testing API
+
+You can use the `test-upload.http` file to manually test image upload API:
+
+1. Create a property
+2. Get the property ID from the response
+3. Upload an image to the property
+4. Verify the image was uploaded correctly
+>>>>>>> 4e46866 (Initial commit: MazLogic Properties - Full-stack property management application)

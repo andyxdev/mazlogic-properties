@@ -1,0 +1,31 @@
+.request-form {
+  background-color: var(--lightest-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(23, 162, 184, 0.15);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 30px;
+  position: relative;
+  z-index: 100;
+  border-top: 4px solid var(--info-color);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(23, 162, 184, 0.2);
+  }
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #343a40;
+  font-weight: 600;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.form-actions {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+}
